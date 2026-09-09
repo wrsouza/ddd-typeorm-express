@@ -1,7 +1,5 @@
 import { IOrderItemEntity } from "../../entities";
-import { IOrderItem } from "../../domain/order";
-import { IProduct } from "../../domain/product";
-
+import { IProduct, IOrderItem } from "../../domain";
 export interface IOrderItemService {
   handle(list: IOrderItemEntity[], products: IProduct[]): IOrderItem[];
 }

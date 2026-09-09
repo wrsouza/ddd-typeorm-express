@@ -1,6 +1,7 @@
-import { ICompany, ICompanyService } from "../../domain/company";
-import { ICompanyMapper } from "../mappers/company.mapper";
-import { ICompanyRepository } from "../repositories/company.interface";
+import { ICompanyRepository } from "../repositories";
+import { ICompanyMapper } from "../mappers";
+import { ICompany } from "../../domain";
+import { ICompanyService } from "./company.interface";
 
 export class CompanyService implements ICompanyService {
   constructor(

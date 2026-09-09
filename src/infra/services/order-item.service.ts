@@ -1,7 +1,6 @@
 import { IOrderItemEntity } from "../../entities";
-import { IOrderItem } from "../../domain/order";
-import { IProduct } from "../../domain/product";
-import { IOrderItemMapper } from "../mappers/order-item.mapper";
+import { IOrderItem, IProduct } from "../../domain";
+import { IOrderItemMapper } from "../mappers";
 import { IOrderItemService } from "./order-item.interface";
 
 export class OrderItemService implements IOrderItemService {

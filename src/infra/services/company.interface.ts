@@ -1,5 +1,4 @@
-import { ICompany } from "../../domain/company";
-
+import { ICompany } from "../../domain";
 export interface ICompanyService {
   getById(companyId: string): Promise<ICompany | null>;
 }

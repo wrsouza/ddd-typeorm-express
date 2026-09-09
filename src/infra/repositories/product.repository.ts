@@ -1,7 +1,7 @@
 import { In } from "typeorm";
 import { IProductEntity } from "../../entities";
-import { IProductRepository } from "./product.interface";
 import { Repository } from "./repository";
+import { IProductRepository } from "./product.interface";
 
 export class ProductRepository
   extends Repository<IProductEntity>

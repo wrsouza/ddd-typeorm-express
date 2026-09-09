@@ -1,6 +1,6 @@
-import { IProduct } from "../../domain/product";
-import { IProductMapper } from "../mappers/product.mapper";
-import { IProductRepository } from "../repositories/product.interface";
+import { IProduct } from "../../domain";
+import { IProductMapper } from "../mappers";
+import { IProductRepository } from "../repositories";
 import { IProductService } from "./product.interface";
 
 export class ProductService implements IProductService {
