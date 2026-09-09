@@ -1,4 +1,4 @@
-import { ICompany, ICompanyData } from "./company.interface";
+import { ICompany, ICompanyData, ICompanyJson } from "./company.interface";
 
 export class Company implements ICompany {
   private id: string;
@@ -22,5 +22,12 @@ export class Company implements ICompany {
 
   getName(): string {
     return this.name;
+  }
+
+  toJson(): ICompanyJson {
+    return {
+      id: this.id,
+      name: this.name,
+    };
   }
 }

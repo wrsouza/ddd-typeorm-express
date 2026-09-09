@@ -1,22 +1,23 @@
-import { IOrder } from "../../../domain/order";
 import { OrderItemResultDto } from "./order-item-result.dto";
+import type { IOrderJson } from "../../../domain";
+import { CompanyResultDto } from "./company-result.dto";
 
 export class OrderResultDto {
   readonly id: string;
   readonly name: string;
+  readonly company: CompanyResultDto;
   readonly items: OrderItemResultDto[];
+  readonly totalItems: number;
   readonly totalQuantity: number;
   readonly totalValue: number;
 
-  private constructor(order: IOrder) {
-    this.id = order.getId();
-    this.name = order.getName();
-    this.items = order.getItems().map((item) => OrderItemResultDto.fromDomain(item));
-    this.totalQuantity = order.getTotalQuantity();
-    this.totalValue = order.getTotalValue();
-  }
-
-  static fromDomain(order: IOrder): OrderResultDto {
-    return new OrderResultDto(order);
+  constructor(data: IOrderJson) {
+    this.id = data.id;
+    this.name = data.name;
+    this.company = new CompanyResultDto(data.company);
+    this.items = data.items.map((item) => new OrderItemResultDto(item));
+    this.totalItems = data.totalItems;
+    this.totalQuantity = data.totalQuantity;
+    this.totalValue = data.totalValue;
   }
 }

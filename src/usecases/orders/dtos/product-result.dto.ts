@@ -1,4 +1,4 @@
-import { IProduct } from "../../../domain/product";
+import type { IProductJson } from "../../../domain";
 
 export class ProductResultDto {
   readonly id: string;
@@ -7,15 +7,11 @@ export class ProductResultDto {
   readonly price: number;
   readonly category: string;
 
-  private constructor(product: IProduct) {
-    this.id = product.getId();
-    this.sku = product.getSku();
-    this.name = product.getName();
-    this.price = product.getPrice();
-    this.category = product.getCategory();
-  }
-
-  static fromDomain(product: IProduct): ProductResultDto {
-    return new ProductResultDto(product);
+  constructor(data: IProductJson) {
+    this.id = data.id;
+    this.sku = data.sku;
+    this.name = data.name;
+    this.price = data.price;
+    this.category = data.category;
   }
 }

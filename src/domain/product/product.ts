@@ -43,4 +43,14 @@ export class Product implements IProduct {
   getCategory(): string {
     return this.category;
   }
+
+  toJson(): IProductData {
+    return {
+      id: this.id,
+      sku: this.sku,
+      name: this.name,
+      price: this.price,
+      category: this.category,
+    };
+  }
 }

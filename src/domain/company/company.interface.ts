@@ -3,7 +3,10 @@ export interface ICompanyData {
   name: string;
 }
 
+export interface ICompanyJson extends ICompanyData {}
+
 export interface ICompany {
   getId(): string;
   getName(): string;
+  toJson(): ICompanyJson;
 }

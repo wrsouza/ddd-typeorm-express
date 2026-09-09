@@ -1,5 +1,9 @@
 import { IProduct } from "../../product/product.interface";
-import { IOrderItem, IOrderItemData } from "./order-item.interface";
+import {
+  IOrderItem,
+  IOrderItemData,
+  IOrderItemJson,
+} from "./order-item.interface";
 
 export class OrderItem implements IOrderItem {
   private id: string;
@@ -42,5 +46,15 @@ export class OrderItem implements IOrderItem {
 
   getTotal(): number {
     return this.quantity * this.price;
+  }
+
+  toJson(): IOrderItemJson {
+    return {
+      id: this.id,
+      product: this.product.toJson(),
+      price: this.price,
+      quantity: this.quantity,
+      total: this.getTotal(),
+    };
   }
 }

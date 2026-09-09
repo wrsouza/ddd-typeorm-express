@@ -1,6 +1,5 @@
-import { IOrderItem } from "../../../domain/order";
+import type { IOrderItemJson } from "../../../domain";
 import { ProductResultDto } from "./product-result.dto";
-
 export class OrderItemResultDto {
   readonly id: string;
   readonly product: ProductResultDto;
@@ -8,15 +7,11 @@ export class OrderItemResultDto {
   readonly quantity: number;
   readonly total: number;
 
-  private constructor(item: IOrderItem) {
-    this.id = item.getId();
-    this.product = ProductResultDto.fromDomain(item.getProduct());
-    this.price = item.getPrice();
-    this.quantity = item.getQuantity();
-    this.total = item.getTotal();
-  }
-
-  static fromDomain(item: IOrderItem): OrderItemResultDto {
-    return new OrderItemResultDto(item);
+  constructor(data: IOrderItemJson) {
+    this.id = data.id;
+    this.product = new ProductResultDto(data.product);
+    this.price = data.price;
+    this.quantity = data.quantity;
+    this.total = data.total;
   }
 }
