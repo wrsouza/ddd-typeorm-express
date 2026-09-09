@@ -1,0 +1,21 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "types": ["node", "jest"],
+    "outDir": "dist",
+    "rootDir": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~/tests/*": ["./tests/*"]
+    },
+    "rootDirs": ["src", "tests"]
+  }
+}

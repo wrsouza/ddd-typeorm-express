@@ -1,0 +1,12 @@
+import { ICompanyEntity } from "../entities";
+import { ICompanyRepository } from "./company.interface";
+import { Repository } from "./repository";
+
+export class CompanyRepository
+  extends Repository<ICompanyEntity>
+  implements ICompanyRepository
+{
+  async getById(id: string): Promise<ICompanyEntity> {
+    return Promise.reject();
+  }
+}
