@@ -1,6 +1,9 @@
 import { ICompanyEntity } from "../../entities";
-import { Company } from "./company";
-import { ICompany, ICompanyMapper } from "./company.interface";
+import { Company, ICompany } from "../../domain/company";
+
+export interface ICompanyMapper {
+  toDomain(data: ICompanyEntity): ICompany;
+}
 
 export class CompanyMapper implements ICompanyMapper {
   toDomain(data: ICompanyEntity): ICompany {

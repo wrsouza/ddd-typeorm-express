@@ -1,9 +1,11 @@
 import { IOrderEntity, IOrderItemEntity } from "../../entities";
-import { IOrderRepository } from "../../repositories";
-import { ICompany } from "../company";
-import { IOrderItemService } from "../order-item";
-import { IProduct, IProductService } from "../product/product.interface";
-import { IOrder, IOrderMapper, IOrderService } from "./order.interface";
+import { ICompany } from "../../domain/company";
+import { IOrder, IOrderService } from "../../domain/order";
+import { IProduct } from "../../domain/product";
+import { IOrderMapper } from "../mappers/order.mapper";
+import { IOrderRepository } from "../repositories/order.interface";
+import { IOrderItemService } from "./order-item.interface";
+import { IProductService } from "./product.interface";
 
 export class OrderService implements IOrderService {
   constructor(

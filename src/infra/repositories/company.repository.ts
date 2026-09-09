@@ -1,4 +1,4 @@
-import { ICompanyEntity } from "../entities";
+import { ICompanyEntity } from "../../entities";
 import { ICompanyRepository } from "./company.interface";
 import { Repository } from "./repository";
 

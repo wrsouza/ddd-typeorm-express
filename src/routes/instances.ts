@@ -1,15 +1,22 @@
 import { database } from "../config";
-import { CompanyMapper, CompanyService } from "../domain/company";
-import { OrderMapper, OrderService } from "../domain/order";
-import { OrderItemMapper, OrderItemService } from "../domain/order-item";
-import { ProductMapper } from "../domain/product/product.mapper";
-import { ProductService } from "../domain/product/product.service";
 import { CompanyEntity, OrderEntity, ProductEntity } from "../entities";
+import {
+  CompanyMapper,
+  OrderItemMapper,
+  OrderMapper,
+  ProductMapper,
+} from "../infra/mappers";
 import {
   CompanyRepository,
   OrderRepository,
   ProductRepository,
-} from "../repositories";
+} from "../infra/repositories";
+import {
+  CompanyService,
+  OrderItemService,
+  OrderService,
+  ProductService,
+} from "../infra/services";
 import { OrdersService } from "../usecases/orders/orders.service";
 
 export const companyRepository = new CompanyRepository(

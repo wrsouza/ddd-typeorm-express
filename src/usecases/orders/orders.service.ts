@@ -10,7 +10,10 @@ export class OrdersService {
 
   async getAll(companyId: string): Promise<OrderResultDto[]> {
     const company = await this.companyService.getById(companyId);
+    if (!company) {
+      throw new Error(`company ${companyId} not found`);
+    }
     const orders = await this.orderService.getAll(company);
-    return orders.map((order) => new OrderResultDto(order.toJson()));
+    return orders.map((order) => OrderResultDto.fromDomain(order));
   }
 }

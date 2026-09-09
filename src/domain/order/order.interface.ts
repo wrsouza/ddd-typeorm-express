@@ -1,6 +1,5 @@
-import { IOrderEntity } from "../../entities";
-import { ICompany, ICompanyJson } from "../company";
-import { IOrderItem, IOrderItemJson } from "../order-item";
+import { ICompany } from "../company";
+import { IOrderItem } from "./order-item";
 
 export interface IOrderData {
   id: string;
@@ -9,23 +8,13 @@ export interface IOrderData {
   items: IOrderItem[];
 }
 
-export interface IOrderJson {
-  id: string;
-  name: string;
-  company: ICompanyJson;
-  items: IOrderItemJson[];
-  totalQuantity: number;
-  totalValue: number;
-}
-
 export interface IOrder {
+  getId(): string;
+  getName(): string;
+  getCompany(): ICompany;
+  getItems(): IOrderItem[];
   getTotalQuantity(): number;
   getTotalValue(): number;
-  toJson(): IOrderJson;
-}
-
-export interface IOrderMapper {
-  toDomain(data: IOrderEntity, company: ICompany, items: IOrderItem[]): IOrder;
 }
 
 export interface IOrderService {

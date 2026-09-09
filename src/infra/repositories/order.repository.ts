@@ -1,4 +1,4 @@
-import { IOrderEntity } from "../entities";
+import { IOrderEntity } from "../../entities";
 import { IOrderRepository } from "./order.interface";
 import { Repository } from "./repository";
 
