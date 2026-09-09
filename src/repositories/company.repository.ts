@@ -6,7 +6,7 @@ export class CompanyRepository
   extends Repository<ICompanyEntity>
   implements ICompanyRepository
 {
-  async getById(id: string): Promise<ICompanyEntity> {
-    return Promise.reject();
+  async getById(id: string): Promise<ICompanyEntity | null> {
+    return this.client.findOneBy({ id });
   }
 }

@@ -8,6 +8,7 @@ export class OrderItemMapper implements IOrderItemMapper {
     return new OrderItem({
       id: data.id,
       quantity: data.quantity,
+      price: product.getPrice(),
       product,
     });
   }

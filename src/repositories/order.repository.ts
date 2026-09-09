@@ -7,6 +7,6 @@ export class OrderRepository
   implements IOrderRepository
 {
   getAll(): Promise<IOrderEntity[]> {
-    return Promise.resolve([]);
+    return this.client.find();
   }
 }

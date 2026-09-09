@@ -39,6 +39,9 @@ export class OrderEntity implements IOrderEntity {
   @JoinColumn({ name: "company_id" })
   declare company: CompanyEntity;
 
-  @OneToMany((type) => OrderItemEntity, (item) => item.order, { eager: true })
+  @OneToMany((type) => OrderItemEntity, (item) => item.order, {
+    eager: true,
+    cascade: true,
+  })
   declare items: OrderItemEntity[];
 }
