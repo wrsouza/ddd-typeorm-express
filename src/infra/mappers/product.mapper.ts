@@ -1,9 +1,6 @@
 import { IProductEntity } from "../../entities";
 import { IProduct, Product } from "../../domain/product";
-
-export interface IProductMapper {
-  toDomain(data: IProductEntity): IProduct;
-}
+import { IProductMapper } from "./product.interface";
 
 export class ProductMapper implements IProductMapper {
   toDomain(data: IProductEntity): IProduct {

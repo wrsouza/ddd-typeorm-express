@@ -16,7 +16,3 @@ export interface IOrder {
   getTotalQuantity(): number;
   getTotalValue(): number;
 }
-
-export interface IOrderService {
-  getAll(company: ICompany): Promise<IOrder[]>;
-}

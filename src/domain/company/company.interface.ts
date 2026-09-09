@@ -7,7 +7,3 @@ export interface ICompany {
   getId(): string;
   getName(): string;
 }
-
-export interface ICompanyService {
-  getById(companyId: string): Promise<ICompany | null>;
-}

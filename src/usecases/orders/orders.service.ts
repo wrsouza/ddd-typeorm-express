@@ -1,7 +1,5 @@
-import { ICompanyService } from "../../domain/company";
-import { IOrderService } from "../../domain/order";
 import { OrderResultDto } from "./dtos";
-
+import { ICompanyService, IOrderService } from "../../infra/services";
 export class OrdersService {
   constructor(
     private readonly companyService: ICompanyService,
