@@ -1,7 +1,7 @@
 import { IProduct } from "../../domain";
 import { IProductMapper } from "../mappers";
 import { IProductRepository } from "../repositories";
-import { IProductService } from "./product.interface";
+import { IProductService } from "./interfaces";
 
 export class ProductService implements IProductService {
   constructor(

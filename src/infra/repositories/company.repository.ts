@@ -1,6 +1,6 @@
-import { ICompanyEntity } from "../../entities";
+import { ICompanyEntity } from "../entities";
+import { ICompanyRepository } from "./interfaces";
 import { Repository } from "./repository";
-import { ICompanyRepository } from "./company.interface";
 
 export class CompanyRepository
   extends Repository<ICompanyEntity>

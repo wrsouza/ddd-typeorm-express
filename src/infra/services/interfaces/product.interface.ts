@@ -1,4 +1,4 @@
-import { IProduct } from "../../domain";
+import { IProduct } from "../../../domain";
 
 export interface IProductService {
   getAll(): Promise<IProduct[]>;

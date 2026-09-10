@@ -6,15 +6,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { IProductEntity } from "./interfaces";
 import { OrderItemEntity } from "./order-item.entity";
-
-export interface IProductEntity {
-  id: string;
-  sku: string;
-  name: string;
-  price: number;
-  category: string;
-}
 
 @Entity({ name: "products" })
 export class ProductEntity implements IProductEntity {

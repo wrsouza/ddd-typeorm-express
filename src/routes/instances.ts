@@ -1,5 +1,5 @@
 import { database } from "../config";
-import { CompanyEntity, OrderEntity, ProductEntity } from "../entities";
+import { CompanyEntity, OrderEntity, ProductEntity } from "../infra/entities";
 import {
   CompanyMapper,
   OrderItemMapper,
@@ -17,7 +17,7 @@ import {
   OrderService,
   ProductService,
 } from "../infra/services";
-import { OrdersService } from "../usecases/orders/orders.service";
+import { OrdersUseCase } from "../usecases/orders/orders.usecase";
 
 export const companyRepository = new CompanyRepository(
   database.getRepository(CompanyEntity),
@@ -47,4 +47,4 @@ const orderService = new OrderService(
   productService,
 );
 
-export const ordersService = new OrdersService(companyService, orderService);
+export const ordersUseCase = new OrdersUseCase(companyService, orderService);

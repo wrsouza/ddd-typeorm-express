@@ -6,15 +6,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { ICompanyEntity } from "./interfaces";
 import { OrderEntity } from "./order.entity";
 
-export interface ICompanyEntity {
-  id: string;
-  name: string;
-}
-
 @Entity({ name: "companies" })
-export class CompanyEntity {
+export class CompanyEntity implements ICompanyEntity {
   @PrimaryGeneratedColumn("uuid")
   declare id: string;
 

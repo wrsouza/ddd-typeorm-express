@@ -1,6 +1,6 @@
-import { OrderItemResultDto } from "./order-item-result.dto";
 import type { IOrderJson } from "../../../domain";
 import { CompanyResultDto } from "./company-result.dto";
+import { OrderItemResultDto } from "./order-item-result.dto";
 
 export class OrderResultDto {
   readonly id: string;

@@ -7,16 +7,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { IOrderItemEntity } from "./interfaces";
 import { OrderEntity } from "./order.entity";
 import { ProductEntity } from "./product.entity";
-
-export interface IOrderItemEntity {
-  id: string;
-  orderId: string;
-  productId: string;
-  price: number;
-  quantity: number;
-}
 
 @Entity({ name: "order-items" })
 export class OrderItemEntity implements IOrderItemEntity {

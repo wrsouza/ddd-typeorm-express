@@ -1,4 +1,4 @@
-import { IProduct } from "../../domain";
+import { IProduct } from "../../../domain";
 import { IProductEntity } from "../../entities";
 
 export interface IProductMapper {

@@ -1,7 +1,7 @@
-import { IOrderItemEntity } from "../../entities";
 import { IOrderItem, IProduct } from "../../domain";
+import { IOrderItemEntity } from "../entities";
 import { IOrderItemMapper } from "../mappers";
-import { IOrderItemService } from "./order-item.interface";
+import { IOrderItemService } from "./interfaces";
 
 export class OrderItemService implements IOrderItemService {
   constructor(private readonly orderItemMapper: IOrderItemMapper) {}

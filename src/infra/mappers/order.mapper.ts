@@ -1,7 +1,7 @@
-import { IOrderEntity } from "../../entities";
 import { ICompany } from "../../domain/company";
 import { IOrder, IOrderItem, Order } from "../../domain/order";
-import { IOrderMapper } from "./order.interface";
+import { IOrderEntity } from "../entities";
+import { IOrderMapper } from "./interfaces/order.interface";
 
 export class OrderMapper implements IOrderMapper {
   toDomain(data: IOrderEntity, company: ICompany, items: IOrderItem[]): IOrder {

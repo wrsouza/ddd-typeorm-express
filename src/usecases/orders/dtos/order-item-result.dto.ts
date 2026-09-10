@@ -1,5 +1,6 @@
 import type { IOrderItemJson } from "../../../domain";
 import { ProductResultDto } from "./product-result.dto";
+
 export class OrderItemResultDto {
   readonly id: string;
   readonly product: ProductResultDto;

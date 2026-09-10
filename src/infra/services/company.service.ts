@@ -1,7 +1,7 @@
-import { ICompanyRepository } from "../repositories";
-import { ICompanyMapper } from "../mappers";
 import { ICompany } from "../../domain";
-import { ICompanyService } from "./company.interface";
+import { ICompanyMapper } from "../mappers";
+import { ICompanyRepository } from "../repositories";
+import { ICompanyService } from "./interfaces";
 
 export class CompanyService implements ICompanyService {
   constructor(
@@ -9,8 +9,11 @@ export class CompanyService implements ICompanyService {
     private readonly companyMapper: ICompanyMapper,
   ) {}
 
-  async getById(companyId: string): Promise<ICompany | null> {
+  async getById(companyId: string): Promise<ICompany> {
     const company = await this.companyRepository.getById(companyId);
-    return company ? this.companyMapper.toDomain(company) : null;
+    if (!company) {
+      throw new Error("company not found");
+    }
+    return this.companyMapper.toDomain(company);
   }
 }

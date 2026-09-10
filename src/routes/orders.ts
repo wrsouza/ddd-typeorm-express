@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { ordersService } from "./instances";
+import { ordersUseCase } from "./instances";
 
 const router = Router();
 
@@ -8,7 +8,7 @@ router.get("/orders", async (_req: Request, _res: Response) => {
   if (!companyId) {
     throw new Error("companyId is required");
   }
-  const result = await ordersService.getAll(companyId);
+  const result = await ordersUseCase.getAll(companyId);
   return _res.status(200).json({ data: result });
 });
 

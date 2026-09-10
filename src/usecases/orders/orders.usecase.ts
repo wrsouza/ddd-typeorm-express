@@ -1,6 +1,7 @@
-import { OrderResultDto } from "./dtos";
 import { ICompanyService, IOrderService } from "../../infra/services";
-export class OrdersService {
+import { OrderResultDto } from "./dtos";
+
+export class OrdersUseCase {
   constructor(
     private readonly companyService: ICompanyService,
     private readonly orderService: IOrderService,

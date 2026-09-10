@@ -5,11 +5,11 @@ import {
   IOrderEntity,
   IOrderItemEntity,
   IProductEntity,
-} from "./entities";
+} from "./infra/entities";
 import {
   companyRepository,
-  productRepository,
   orderRepository,
+  productRepository,
 } from "./routes/instances";
 
 function makeCompanies(length: number) {

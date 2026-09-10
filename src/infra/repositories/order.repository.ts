@@ -1,6 +1,6 @@
-import { IOrderEntity } from "../../entities";
+import { IOrderEntity } from "../entities";
+import { IOrderRepository } from "./interfaces";
 import { Repository } from "./repository";
-import { IOrderRepository } from "./order.interface";
 
 export class OrderRepository
   extends Repository<IOrderEntity>

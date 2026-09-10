@@ -9,14 +9,8 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { CompanyEntity } from "./company.entity";
-import { IOrderItemEntity, OrderItemEntity } from "./order-item.entity";
-
-export interface IOrderEntity {
-  id: string;
-  name: string;
-  companyId: string;
-  items: IOrderItemEntity[];
-}
+import { IOrderEntity } from "./interfaces";
+import { OrderItemEntity } from "./order-item.entity";
 
 @Entity({ name: "orders" })
 export class OrderEntity implements IOrderEntity {
