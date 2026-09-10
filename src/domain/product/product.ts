@@ -8,16 +8,6 @@ export class Product implements IProduct {
   private category: string;
 
   constructor(data: IProductData) {
-    if (!data.id) {
-      throw new Error("product id is required");
-    }
-    if (!data.name) {
-      throw new Error("product name is required");
-    }
-    if (data.price < 0) {
-      throw new Error("product price cannot be negative");
-    }
-
     this.id = data.id;
     this.sku = data.sku;
     this.name = data.name;

@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import { ICompany, IOrder, IProduct } from "../../domain";
 import { IOrderEntity, IOrderItemEntity } from "../entities";
 import { IOrderMapper } from "../mappers";
@@ -23,6 +24,16 @@ export class OrderService implements IOrderService {
     ];
     const products = await this.productService.getByIds(productIds);
     return orders.map((order) => this.makeOrder(order, company, products));
+  }
+
+  async create(company: ICompany): Promise<IOrder> {
+    const order = await this.orderRepository.save({
+      id: uuid(),
+      name: String(Math.floor(Date.now() / 1000)),
+      companyId: company.getId(),
+      items: [],
+    });
+    return this.orderMapper.toDomain(order, company, []);
   }
 
   private getProductIds(items: IOrderItemEntity[]): string[] {

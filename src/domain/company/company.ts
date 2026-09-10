@@ -5,13 +5,6 @@ export class Company implements ICompany {
   private name: string;
 
   constructor(data: ICompanyData) {
-    if (!data.id) {
-      throw new Error("company id is required");
-    }
-    if (!data.name) {
-      throw new Error("company name is required");
-    }
-
     this.id = data.id;
     this.name = data.name;
   }

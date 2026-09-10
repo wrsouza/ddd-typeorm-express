@@ -9,13 +9,6 @@ export class Order implements IOrder {
   private items: IOrderItem[];
 
   constructor(data: IOrderData) {
-    if (!data.id) {
-      throw new Error("order id is required");
-    }
-    if (!data.name) {
-      throw new Error("order name is required");
-    }
-
     this.id = data.id;
     this.name = data.name;
     this.company = data.company;
