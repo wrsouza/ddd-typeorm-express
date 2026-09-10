@@ -4,7 +4,7 @@ import { ordersUseCase } from "./instances";
 const router = Router();
 
 router.get("/orders", async (_req: Request, _res: Response) => {
-  const companyId = String(_req.query.companyId);
+  const companyId = _req.query.companyId as string;
   if (!companyId) {
     throw new Error("companyId is required");
   }
@@ -13,7 +13,7 @@ router.get("/orders", async (_req: Request, _res: Response) => {
 });
 
 router.post("/orders", async (_req: Request, _res: Response) => {
-  const companyId = String(_req.body.companyId);
+  const companyId = _req.body.companyId as string;
   if (!companyId) {
     throw new Error("companyId is required");
   }
