@@ -1,6 +1,7 @@
 export * from "./catalog.repository";
 export * from "./company.repository";
 export * from "./discount.repository";
+export * from "./employee.repository";
 export * from "./interfaces";
 export * from "./order.repository";
 export * from "./product.repository";

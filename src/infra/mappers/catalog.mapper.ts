@@ -13,6 +13,7 @@ export class CatalogMapper implements ICatalogMapper {
     return new Catalog({
       id: data.id,
       name: data.name,
+      currency: data.currency,
       companies,
       products,
     });

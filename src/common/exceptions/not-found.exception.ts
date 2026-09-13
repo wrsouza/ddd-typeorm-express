@@ -6,10 +6,7 @@ import { AppError } from "./app.error";
  * Results in a 404 HTTP response.
  */
 export class NotFoundException extends AppError {
-  constructor(resource = "Resource", id?: string) {
-    super(
-      404,
-      id ? `${resource} with id "${id}" not found.` : `${resource} not found.`,
-    );
+  constructor(message = "Not Found.") {
+    super(404, message);
   }
 }

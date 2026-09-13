@@ -1,17 +1,21 @@
 import { faker } from "@faker-js/faker";
+import { Repository } from "typeorm";
 import { v4 as uuid } from "uuid";
+import { database } from "../../config";
 import {
+  ICatalogEntity,
   ICompanyEntity,
   IDiscountEntity,
   IOrderEntity,
   IOrderItemEntity,
   IProductEntity,
+  OrderEntity,
 } from "../entities";
-import { orderRepository } from "./instances";
 
 function makeOrderItems(
   orderId: string,
   length: number,
+  catalog: ICatalogEntity,
   products: IProductEntity[],
   discounts: IDiscountEntity[],
 ): IOrderItemEntity[] {
@@ -22,12 +26,20 @@ function makeOrderItems(
     const quantity = faker.number.int({ min: 1, max: 10 });
     const discount =
       discounts.find((discount) => discount.products.includes(product)) ?? null;
+    const priceItem = product.prices?.find(
+      (price) => price.catalogId === catalog.id,
+    );
+
+    if (!priceItem) {
+      continue;
+    }
+
     list.push({
       id: uuid(),
       orderId,
       productId: product.id,
       quantity,
-      price: product.price,
+      price: priceItem.price,
     });
   }
   return list;
@@ -44,12 +56,15 @@ function makeOrders(
     const id = uuid();
     const company =
       companies[faker.number.int({ min: 0, max: companies.length - 1 })];
+
     const items = makeOrderItems(
       id,
       faker.number.int({ min: 1, max: 5 }),
-      products.filter((product) => product.catalogId === company.catalogId),
+      company.catalog!,
+      products,
       discounts.filter((discount) => discount.companies.includes(company)),
     );
+
     list.push({
       id,
       name: faker.commerce.isbn({ separator: "" }),
@@ -60,6 +75,10 @@ function makeOrders(
   return list;
 }
 
+function getClient(): Repository<OrderEntity> {
+  return database.getRepository(OrderEntity);
+}
+
 export async function seedOrder(
   length: number,
   companies: ICompanyEntity[],
@@ -67,5 +86,5 @@ export async function seedOrder(
   discounts: IDiscountEntity[],
 ): Promise<IOrderEntity[]> {
   const orders = makeOrders(length, companies, products, discounts);
-  return Promise.all(orders.map((order) => orderRepository.save(order)));
+  return Promise.all(orders.map((order) => getClient().save(order)));
 }

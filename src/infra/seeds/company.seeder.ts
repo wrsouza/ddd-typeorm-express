@@ -1,7 +1,8 @@
 import { faker } from "@faker-js/faker";
+import { Repository } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { ICatalogEntity, ICompanyEntity } from "../entities";
-import { companyRepository } from "./instances";
+import { database } from "../../config";
+import { CompanyEntity, ICatalogEntity, ICompanyEntity } from "../entities";
 
 function makeCompanies(
   length: number,
@@ -13,9 +14,14 @@ function makeCompanies(
       id: uuid(),
       name: faker.company.name(),
       catalogId: catalogs[i].id,
+      catalog: catalogs[i],
     });
   }
   return list;
+}
+
+function getClient(): Repository<CompanyEntity> {
+  return database.getRepository(CompanyEntity);
 }
 
 export async function seedCompany(
@@ -23,7 +29,9 @@ export async function seedCompany(
   catalogs: ICatalogEntity[],
 ): Promise<ICompanyEntity[]> {
   const companies = makeCompanies(length, catalogs);
-  return Promise.all(
-    companies.map((company) => companyRepository.save(company)),
-  );
+  return Promise.all(companies.map((company) => getClient().save(company)));
+}
+
+export async function getAllCompanies(): Promise<ICompanyEntity[]> {
+  return getClient().find();
 }

@@ -1,7 +1,7 @@
 import { Module } from "../../core";
 import { CompanyModule as CompanyInfraModule } from "../../infra/modules";
 import { CompanyController } from "../controllers";
-import { CompanyService } from "../services";
+import { CompanyFilterService, CompanyService } from "../services";
 
 @Module({
   imports: [CompanyInfraModule],
@@ -10,6 +10,10 @@ import { CompanyService } from "../services";
     {
       provide: "COMPANY_SERVICE",
       useClass: CompanyService,
+    },
+    {
+      provide: "COMPANY_FILTER",
+      useClass: CompanyFilterService,
     },
   ],
 })

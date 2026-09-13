@@ -1,6 +1,8 @@
 import { ICatalogFilter } from "../../app/services";
+import { NotFoundException } from "../../common/exceptions";
 import { Inject, Injectable } from "../../core";
-import { ICatalog } from "../../domain";
+import { ICatalog, ICompany, IProduct } from "../../domain";
+import { ICatalogEntity } from "../entities";
 import { ICatalogMapper } from "../mappers";
 import { ICatalogRepository } from "../repositories";
 import {
@@ -25,8 +27,7 @@ export class CatalogService implements ICatalogService {
   async paginate(filters: ICatalogFilter): Promise<[ICatalog[], number]> {
     const [catalogs, total] = await this.catalogRepository.paginate(filters);
     const catalogIds = catalogs.map((catalog) => catalog.id);
-    const companies = await this.companyService.findByCatalogIds(catalogIds);
-    const products = await this.productService.findByCatalogIds(catalogIds);
+    const [companies, products] = await this.getByCatalogIds(catalogIds);
     const catalogMapped = catalogs.map((catalog) =>
       this.catalogMapper.toDomain(
         catalog,
@@ -35,5 +36,38 @@ export class CatalogService implements ICatalogService {
       ),
     );
     return [catalogMapped, total];
+  }
+
+  async findById(id: string): Promise<ICatalog> {
+    const catalog = await this.catalogRepository.getById(id);
+    if (!catalog) {
+      throw new NotFoundException("catalog not found");
+    }
+    const [companies, products] = await this.getByCatalogIds([catalog.id]);
+    return this.catalogMapper.toDomain(catalog, companies, products);
+  }
+
+  async create(data: Partial<ICatalogEntity>): Promise<ICatalog> {
+    const catalog = await this.catalogRepository.create(data);
+    return this.catalogMapper.toDomain(catalog, [], []);
+  }
+
+  async update(id: string, data: Partial<ICatalogEntity>): Promise<ICatalog> {
+    const catalog = await this.catalogRepository.update(id, data);
+    const [companies, products] = await this.getByCatalogIds([catalog.id]);
+    return this.catalogMapper.toDomain(catalog, companies, products);
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.catalogRepository.delete(id);
+  }
+
+  private async getByCatalogIds(
+    catalogIds: string[],
+  ): Promise<[ICompany[], IProduct[]]> {
+    return Promise.all([
+      this.companyService.findByCatalogIds(catalogIds),
+      this.productService.findByCatalogIds(catalogIds),
+    ]);
   }
 }

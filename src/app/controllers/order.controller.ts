@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from "../../core";
 import {
   OrderCreateDto,
@@ -17,9 +18,11 @@ import {
   OrderUpdateDto,
   OrderUpdateResultDto,
 } from "../dtos";
+import { AuthGuard } from "../guards";
 import { IOrderService } from "../services";
 
 @Controller("orders")
+@UseGuards(AuthGuard)
 export class OrderController {
   constructor(
     @Inject("ORDER_SERVICE")

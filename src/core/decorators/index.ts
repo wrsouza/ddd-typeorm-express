@@ -4,3 +4,4 @@ export * from "./inject.decorator";
 export * from "./injectable.decorator";
 export * from "./module.decorator";
 export * from "./params.decorator";
+export * from "./use.decorator";

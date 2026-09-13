@@ -1,9 +1,5 @@
-import {
-  IFilter,
-  IFilterData,
-  IFilterService,
-  ISort,
-} from "./filter.interface";
+import { IFilter, IFilterData, ISort } from "../../../infra/repositories";
+import { IFilterService } from "./filter.interface";
 
 export abstract class FilterService implements IFilterService {
   getFilter(params: IFilterData): IFilter {
@@ -34,7 +30,7 @@ export abstract class FilterService implements IFilterService {
     const sort = params.sort;
     if (!sort) {
       return {
-        sort: "name",
+        sort: "id",
         order: {
           name: "ASC",
         },

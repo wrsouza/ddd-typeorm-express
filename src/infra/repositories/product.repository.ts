@@ -12,7 +12,9 @@ export class ProductRepository
   async findByCatalogIds(catalogIds: string[]): Promise<IProductEntity[]> {
     return this.client.find({
       where: {
-        catalogId: In(catalogIds),
+        prices: {
+          catalogId: In(catalogIds),
+        },
       },
     });
   }

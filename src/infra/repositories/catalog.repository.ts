@@ -1,3 +1,4 @@
+import { FindOptionsWhere, ILike } from "typeorm";
 import { ICatalogFilter } from "../../app/services";
 import { Injectable } from "../../core";
 import { ICatalogEntity } from "../entities";
@@ -9,19 +10,32 @@ export class CatalogRepository
   extends Repository<ICatalogEntity>
   implements ICatalogRepository
 {
-  async paginate(params: ICatalogFilter): Promise<[ICatalogEntity[], number]> {
-    const id = params.id ? { id: params.id } : {};
-    const name = params.name ? { name: params.name } : {};
-    const skip = (params.page - 1) * params.limit;
-    const take = params.limit;
-    return this.client.findAndCount({
-      where: {
-        ...id,
-        ...name,
-      },
-      order: params.order,
-      skip,
-      take,
-    });
+  override notFoundMessage: string = "catalog not found";
+
+  protected override getPaginateWhere(
+    params: ICatalogFilter,
+  ): FindOptionsWhere<ICatalogEntity> {
+    return {
+      ...this.getPaginateId(params),
+      ...this.getPaginateName(params),
+    };
+  }
+
+  private getPaginateId(
+    params: ICatalogFilter,
+  ): FindOptionsWhere<ICatalogEntity> {
+    if (!params.id) {
+      return {};
+    }
+    return { id: params.id };
+  }
+
+  private getPaginateName(
+    params: ICatalogFilter,
+  ): FindOptionsWhere<ICatalogEntity> {
+    if (!params.name) {
+      return {};
+    }
+    return { name: ILike(`%${params.name}%`) };
   }
 }

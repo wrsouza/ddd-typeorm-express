@@ -96,3 +96,8 @@ export interface ModuleOptions {
   exports?: InjectionToken[];
   global?: boolean;
 }
+
+/**
+ * GUARDS
+ */
+export const GUARDS_METADATA = Symbol.for("guards:metadata");

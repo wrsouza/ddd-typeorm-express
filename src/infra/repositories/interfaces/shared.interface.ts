@@ -13,7 +13,3 @@ export interface IFilterData {
   page: number;
   limit: number;
 }
-
-export interface IFilterService {
-  getFilter(params: IFilterData): IFilter;
-}

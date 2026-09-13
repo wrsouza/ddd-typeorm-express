@@ -1,6 +1,12 @@
+import { Repository } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { ICompanyEntity, IDiscountEntity, IProductEntity } from "../entities";
-import { discountRepository } from "./instances";
+import { database } from "../../config";
+import {
+  DiscountEntity,
+  ICompanyEntity,
+  IDiscountEntity,
+  IProductEntity,
+} from "../entities";
 
 function makeFixedDiscount(
   companies: ICompanyEntity[],
@@ -94,13 +100,15 @@ function makeDiscounts(
   return list;
 }
 
+function getClient(): Repository<DiscountEntity> {
+  return database.getRepository(DiscountEntity);
+}
+
 export async function seedDiscount(
   length: number,
   companies: ICompanyEntity[],
   products: IProductEntity[],
 ): Promise<IDiscountEntity[]> {
   const discounts = makeDiscounts(length, companies, products);
-  return Promise.all(
-    discounts.map((discount) => discountRepository.save(discount)),
-  );
+  return Promise.all(discounts.map((discount) => getClient().save(discount)));
 }

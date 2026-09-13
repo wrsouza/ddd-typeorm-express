@@ -3,7 +3,10 @@ import { ICatalogService as ICatalogInfraService } from "../../../infra/services
 import {
   CatalogPaginateDto,
   CatalogPaginateResultDto,
-} from "../../dtos/catalog";
+  CatalogResultDto,
+  CatalogUpsertDto,
+  DestroyResultDto,
+} from "../../dtos";
 import { ICatalogFilterService } from "./catalog-filter.interface";
 import { ICatalogService } from "./catalog.interface";
 
@@ -26,5 +29,25 @@ export class CatalogService implements ICatalogService {
       filters,
       total,
     );
+  }
+
+  async findById(id: string): Promise<CatalogResultDto> {
+    const catalog = await this.service.findById(id);
+    return new CatalogResultDto(catalog.toJson());
+  }
+
+  async create(data: CatalogUpsertDto): Promise<CatalogResultDto> {
+    const catalog = await this.service.create(data);
+    return new CatalogResultDto(catalog.toJson());
+  }
+
+  async update(id: string, data: CatalogUpsertDto): Promise<CatalogResultDto> {
+    const catalog = await this.service.update(id, data);
+    return new CatalogResultDto(catalog.toJson());
+  }
+
+  async destroy(id: string): Promise<DestroyResultDto> {
+    await this.service.delete(id);
+    return new DestroyResultDto();
   }
 }

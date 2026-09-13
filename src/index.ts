@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { database } from "./config";
 import seeds from "./seeds";
 import server from "./server";

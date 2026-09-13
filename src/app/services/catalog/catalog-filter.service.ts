@@ -1,11 +1,8 @@
-import { ILike } from "typeorm";
 import { Injectable } from "../../../core";
+import { ICatalogFilter } from "../../../infra/repositories";
 import { CatalogPaginateDto } from "../../dtos/catalog";
-import { FilterService } from "../filters";
-import {
-  ICatalogFilter,
-  ICatalogFilterService,
-} from "./catalog-filter.interface";
+import { FilterService } from "../shared";
+import { ICatalogFilterService } from "./catalog-filter.interface";
 
 @Injectable()
 export class CatalogFilterService
@@ -36,7 +33,7 @@ export class CatalogFilterService
       return {};
     }
     return {
-      name: ILike(`%${name.toLowerCase()}%`),
+      name,
     };
   }
 }

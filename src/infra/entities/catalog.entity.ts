@@ -6,9 +6,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { CatalogPriceEntity } from "./catalog-price.entity";
 import { CompanyEntity } from "./company.entity";
 import { ICatalogEntity } from "./interfaces";
-import { ProductEntity } from "./product.entity";
 
 @Entity({ name: "catalogs" })
 export class CatalogEntity implements ICatalogEntity {
@@ -17,6 +17,9 @@ export class CatalogEntity implements ICatalogEntity {
 
   @Column({ type: "varchar", length: 100 })
   declare name: string;
+
+  @Column({ type: "varchar", length: 3, default: "USD" })
+  declare currency: string;
 
   @CreateDateColumn({ name: "created_at" })
   declare createdAt: Date;
@@ -27,6 +30,6 @@ export class CatalogEntity implements ICatalogEntity {
   @OneToMany(() => CompanyEntity, (company) => company.catalog)
   declare companies: CompanyEntity[];
 
-  @OneToMany(() => ProductEntity, (product) => product.catalog, { eager: true })
-  declare products: ProductEntity[];
+  @OneToMany(() => CatalogPriceEntity, (catalogPrice) => catalogPrice.catalog)
+  declare products: CatalogPriceEntity[];
 }

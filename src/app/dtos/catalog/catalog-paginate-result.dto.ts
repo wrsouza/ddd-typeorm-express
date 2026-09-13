@@ -9,18 +9,14 @@ export class CatalogPaginateResultDto {
   readonly total: number;
   readonly sort: string;
 
-  constructor(
-    catalogs: ICatalogJson[],
-    filters: ICatalogFilter,
-    total: number,
-  ) {
-    this.data = catalogs;
-    this.page = filters.page;
+  constructor(data: ICatalogJson[], filters: ICatalogFilter, total: number) {
+    this.data = data;
+    this.page = Number(filters.page);
     this.tpages =
       total % filters.limit === 0
         ? total / filters.limit
         : Math.floor(total / filters.limit) + 1;
-    this.limit = filters.limit;
+    this.limit = Number(filters.limit);
     this.total = total;
     this.sort = filters.sort;
   }
