@@ -2,10 +2,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { CatalogEntity } from "./catalog.entity";
+import { DiscountEntity } from "./discount.entity";
 import { IProductEntity } from "./interfaces";
 import { OrderItemEntity } from "./order-item.entity";
 
@@ -13,6 +18,9 @@ import { OrderItemEntity } from "./order-item.entity";
 export class ProductEntity implements IProductEntity {
   @PrimaryGeneratedColumn("uuid")
   declare id: string;
+
+  @Column({ type: "uuid", name: "catalog_id" })
+  declare catalogId: string;
 
   @Column({ type: "varchar", length: 50 })
   declare sku: string;
@@ -32,6 +40,13 @@ export class ProductEntity implements IProductEntity {
   @UpdateDateColumn({ name: "updated_at" })
   declare updatedAt: Date;
 
+  @ManyToOne(() => CatalogEntity)
+  @JoinColumn({ name: "catalog_id" })
+  declare catalog: CatalogEntity;
+
   @OneToMany((type) => OrderItemEntity, (orderItem) => orderItem.product)
   declare orderItems: OrderItemEntity[];
+
+  @ManyToMany(() => DiscountEntity)
+  declare discounts: DiscountEntity[];
 }

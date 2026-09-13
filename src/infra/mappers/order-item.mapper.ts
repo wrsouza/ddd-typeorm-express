@@ -1,8 +1,10 @@
+import { Injectable } from "../../core";
 import { IOrderItem, OrderItem } from "../../domain/order";
 import { IProduct } from "../../domain/product";
 import { IOrderItemEntity } from "../entities";
 import { IOrderItemMapper } from "./interfaces/order-item.interface";
 
+@Injectable()
 export class OrderItemMapper implements IOrderItemMapper {
   toDomain(data: IOrderItemEntity, product: IProduct): IOrderItem {
     return new OrderItem({
@@ -10,6 +12,7 @@ export class OrderItemMapper implements IOrderItemMapper {
       quantity: data.quantity,
       price: product.getPrice(),
       product,
+      discount: null,
     });
   }
 }

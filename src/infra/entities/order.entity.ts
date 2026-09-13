@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { OrderStatusEnum } from "../../common";
 import { CompanyEntity } from "./company.entity";
 import { IOrderEntity } from "./interfaces";
 import { OrderItemEntity } from "./order-item.entity";
@@ -22,6 +23,13 @@ export class OrderEntity implements IOrderEntity {
 
   @Column({ type: "uuid", name: "company_id" })
   declare companyId: string;
+
+  @Column({
+    type: "varchar",
+    length: 20,
+    default: OrderStatusEnum.IN_PROGRESS,
+  })
+  declare status: string;
 
   @CreateDateColumn({ name: "created_at" })
   declare createdAt: Date;

@@ -1,3 +1,4 @@
+export * from "./catalog.service";
 export * from "./company.service";
 export * from "./interfaces";
 export * from "./order-item.service";

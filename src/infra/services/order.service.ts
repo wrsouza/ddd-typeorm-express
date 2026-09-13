@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { Inject, Injectable } from "../../core";
 import { ICompany, IOrder, IProduct } from "../../domain";
 import { IOrderEntity, IOrderItemEntity } from "../entities";
 import { IOrderMapper } from "../mappers";
@@ -9,11 +10,16 @@ import {
   IProductService,
 } from "./interfaces";
 
+@Injectable()
 export class OrderService implements IOrderService {
   constructor(
+    @Inject("ORDER_REPOSITORY")
     private readonly orderRepository: IOrderRepository,
+    @Inject("ORDER_MAPPER")
     private readonly orderMapper: IOrderMapper,
+    @Inject("ORDER_ITEM_INFRA_SERVICE")
     private readonly orderItemService: IOrderItemService,
+    @Inject("PRODUCT_INFRA_SERVICE")
     private readonly productService: IProductService,
   ) {}
 

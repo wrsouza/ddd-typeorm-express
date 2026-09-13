@@ -1,9 +1,11 @@
-import { IProduct, IProductJson } from "../../product/product.interface";
+import { IDiscount } from "../../discount";
+import { IProduct, IProductJson } from "../../product";
 
 export interface IOrderItemData {
   id: string;
   product: IProduct;
-  price: number;
+  discount: IDiscount | null;
+  price: number | null;
   quantity: number;
 }
 
@@ -13,6 +15,7 @@ export interface IOrderItemJson {
   price: number;
   quantity: number;
   total: number;
+  discount: number;
 }
 
 export interface IOrderItem {
@@ -21,5 +24,6 @@ export interface IOrderItem {
   getQuantity(): number;
   getPrice(): number;
   getTotal(): number;
+  getDiscount(): number;
   toJson(): IOrderItemJson;
 }

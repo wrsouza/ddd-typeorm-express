@@ -1,3 +1,4 @@
+export * from "./catalog.interface";
 export * from "./company.interface";
 export * from "./order.interface";
 export * from "./product.interface";

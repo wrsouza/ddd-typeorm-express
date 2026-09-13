@@ -1,8 +1,10 @@
+import { Injectable } from "../../core";
 import { ICompany } from "../../domain/company";
 import { IOrder, IOrderItem, Order } from "../../domain/order";
 import { IOrderEntity } from "../entities";
 import { IOrderMapper } from "./interfaces/order.interface";
 
+@Injectable()
 export class OrderMapper implements IOrderMapper {
   toDomain(data: IOrderEntity, company: ICompany, items: IOrderItem[]): IOrder {
     return new Order({
