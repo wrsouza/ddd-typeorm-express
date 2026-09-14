@@ -3,17 +3,12 @@ import { Module } from "../../core";
 import { CompanyEntity } from "../entities";
 import { CompanyMapper } from "../mappers";
 import { CompanyRepository } from "../repositories";
-import { CompanyService } from "../services";
 
 @Module({
   providers: [
     {
       provide: "COMPANY",
       useValue: database.getRepository(CompanyEntity),
-    },
-    {
-      provide: "COMPANY_INFRA_SERVICE",
-      useClass: CompanyService,
     },
     {
       provide: "COMPANY_REPOSITORY",
@@ -25,6 +20,6 @@ import { CompanyService } from "../services";
       useClass: CompanyMapper,
     },
   ],
-  exports: ["COMPANY_INFRA_SERVICE"],
+  exports: ["COMPANY_REPOSITORY", "COMPANY_MAPPER"],
 })
 export class CompanyModule {}

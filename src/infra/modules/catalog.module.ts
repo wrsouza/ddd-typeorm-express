@@ -3,20 +3,12 @@ import { Module } from "../../core";
 import { CatalogEntity } from "../entities";
 import { CatalogMapper } from "../mappers";
 import { CatalogRepository } from "../repositories";
-import { CatalogService } from "../services";
-import { CompanyModule } from "./company.module";
-import { ProductModule } from "./product.module";
 
 @Module({
-  imports: [CompanyModule, ProductModule],
   providers: [
     {
       provide: "CATALOG",
       useValue: database.getRepository(CatalogEntity),
-    },
-    {
-      provide: "CATALOG_INFRA_SERVICE",
-      useClass: CatalogService,
     },
     {
       provide: "CATALOG_REPOSITORY",
@@ -28,6 +20,6 @@ import { ProductModule } from "./product.module";
       useClass: CatalogMapper,
     },
   ],
-  exports: ["CATALOG_INFRA_SERVICE"],
+  exports: ["CATALOG_REPOSITORY", "CATALOG_MAPPER"],
 })
 export class CatalogModule {}

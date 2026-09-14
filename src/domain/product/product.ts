@@ -1,3 +1,5 @@
+import { BadRequestException } from "../../common/exceptions";
+import { Money } from "../shared";
 import { IProduct, IProductData } from "./product.interface";
 
 export class Product implements IProduct {
@@ -5,18 +7,30 @@ export class Product implements IProduct {
   private catalogId: string;
   private sku: string;
   private name: string;
-  private price: number;
-  private currency: string;
+  private price: Money;
   private boxQuantity: number;
   private category: string;
 
   constructor(data: IProductData) {
+    if (!data.id) {
+      throw new BadRequestException("product id is required");
+    }
+    if (!data.sku) {
+      throw new BadRequestException("product sku is required");
+    }
+    if (!data.name) {
+      throw new BadRequestException("product name is required");
+    }
+    if (data.boxQuantity <= 0) {
+      throw new BadRequestException(
+        "product boxQuantity must be greater than zero",
+      );
+    }
     this.id = data.id;
     this.catalogId = data.catalogId;
     this.sku = data.sku;
     this.name = data.name;
-    this.price = data.price;
-    this.currency = data.currency;
+    this.price = new Money(data.price, data.currency);
     this.boxQuantity = data.boxQuantity;
     this.category = data.category;
   }
@@ -37,11 +51,11 @@ export class Product implements IProduct {
   }
 
   getPrice(): number {
-    return this.price;
+    return this.price.getAmount();
   }
 
   getCurrency(): string {
-    return this.currency;
+    return this.price.getCurrency();
   }
 
   getBoxQuantity(): number {
@@ -58,8 +72,8 @@ export class Product implements IProduct {
       catalogId: this.catalogId,
       sku: this.sku,
       name: this.name,
-      price: this.price,
-      currency: this.currency,
+      price: this.price.getAmount(),
+      currency: this.price.getCurrency(),
       boxQuantity: this.boxQuantity,
       category: this.category,
     };

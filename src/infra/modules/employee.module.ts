@@ -3,17 +3,12 @@ import { Module } from "../../core";
 import { EmployeeEntity } from "../entities";
 import { EmployeeMapper } from "../mappers";
 import { EmployeeRepository } from "../repositories";
-import { EmployeeService } from "../services";
 
 @Module({
   providers: [
     {
       provide: "EMPLOYEE",
       useValue: database.getRepository(EmployeeEntity),
-    },
-    {
-      provide: "EMPLOYEE_INFRA_SERVICE",
-      useClass: EmployeeService,
     },
     {
       provide: "EMPLOYEE_REPOSITORY",
@@ -25,6 +20,6 @@ import { EmployeeService } from "../services";
       useClass: EmployeeMapper,
     },
   ],
-  exports: ["EMPLOYEE_INFRA_SERVICE"],
+  exports: ["EMPLOYEE_REPOSITORY", "EMPLOYEE_MAPPER"],
 })
 export class EmployeeModule {}

@@ -1,3 +1,4 @@
+import { BadRequestException } from "../../common/exceptions";
 import { IEmployee, IEmployeeData, IEmployeeJson } from "./employee.interface";
 
 export class Employee implements IEmployee {
@@ -7,6 +8,18 @@ export class Employee implements IEmployee {
   private email: string;
 
   constructor(data: IEmployeeData) {
+    if (!data.id) {
+      throw new BadRequestException("employee id is required");
+    }
+    if (!data.companyId) {
+      throw new BadRequestException("employee companyId is required");
+    }
+    if (!data.name) {
+      throw new BadRequestException("employee name is required");
+    }
+    if (!data.email) {
+      throw new BadRequestException("employee email is required");
+    }
     this.id = data.id;
     this.companyId = data.companyId;
     this.name = data.name;

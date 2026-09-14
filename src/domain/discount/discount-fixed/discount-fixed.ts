@@ -1,3 +1,4 @@
+import { BadRequestException } from "../../../common/exceptions";
 import { Discount } from "../discount";
 import {
   IDiscountFixedData,
@@ -10,6 +11,14 @@ export class DiscountFixed extends Discount {
 
   constructor(data: IDiscountFixedData) {
     super("Fixed Value (Direct)", data.sku);
+    if (data.value < 0) {
+      throw new BadRequestException("discount value cannot be negative");
+    }
+    if (data.minimumQuantity < 0) {
+      throw new BadRequestException(
+        "discount minimumQuantity cannot be negative",
+      );
+    }
     this.sku = data.sku;
     this.value = data.value;
     this.minimumQuantity = data.minimumQuantity;

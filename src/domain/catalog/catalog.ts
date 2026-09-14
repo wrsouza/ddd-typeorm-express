@@ -1,3 +1,4 @@
+import { BadRequestException } from "../../common/exceptions";
 import { ICompany } from "../company";
 import { IProduct } from "../product";
 import { ICatalog, ICatalogData, ICatalogJson } from "./catalog.interface";
@@ -10,6 +11,15 @@ export class Catalog implements ICatalog {
   private products: IProduct[];
 
   constructor(data: ICatalogData) {
+    if (!data.id) {
+      throw new BadRequestException("catalog id is required");
+    }
+    if (!data.name) {
+      throw new BadRequestException("catalog name is required");
+    }
+    if (!data.currency) {
+      throw new BadRequestException("catalog currency is required");
+    }
     this.id = data.id;
     this.name = data.name;
     this.currency = data.currency;

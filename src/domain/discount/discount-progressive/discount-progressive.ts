@@ -1,3 +1,4 @@
+import { BadRequestException } from "../../../common/exceptions";
 import { Discount } from "../discount";
 import {
   IDiscountProgressiveData,
@@ -10,6 +11,11 @@ export class DiscountProgressive extends Discount {
 
   constructor(data: IDiscountProgressiveData) {
     super("Percentual Value (Progressive)", data.sku);
+    if (!data.progressiveValues || data.progressiveValues.length === 0) {
+      throw new BadRequestException(
+        "discount progressiveValues must have at least one value",
+      );
+    }
     this.progressiveValues = data.progressiveValues;
   }
 

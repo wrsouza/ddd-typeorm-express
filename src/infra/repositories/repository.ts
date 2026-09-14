@@ -48,7 +48,6 @@ export abstract class Repository<
   }
 
   async getAll(): Promise<T[]> {
-    console.log(this.client);
     return this.client.find();
   }
 

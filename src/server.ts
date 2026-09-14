@@ -1,5 +1,5 @@
 import express, { Application, NextFunction, Request, Response } from "express";
-import { AppModule } from "./app/app.module";
+import { AppModule } from "./presentation/app.module";
 import { AppError } from "./common/exceptions";
 import { registerRoutes } from "./core";
 

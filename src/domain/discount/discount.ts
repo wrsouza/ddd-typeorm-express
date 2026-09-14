@@ -1,3 +1,4 @@
+import { BadRequestException } from "../../common/exceptions";
 import { IDiscount, IDiscountJson, IDiscountRule } from "./discount.interface";
 
 export abstract class Discount implements IDiscount {
@@ -5,6 +6,9 @@ export abstract class Discount implements IDiscount {
   protected sku: string;
 
   constructor(type: string, sku: string) {
+    if (!sku) {
+      throw new BadRequestException("discount sku is required");
+    }
     this.type = type;
     this.sku = sku;
   }
@@ -17,17 +21,13 @@ export abstract class Discount implements IDiscount {
     return this.sku;
   }
 
-  public getValue(
+  public abstract getValue(
     quantity: number,
     price: number,
     boxQuantity: number,
-  ): number {
-    throw new Error("Method not implemented");
-  }
+  ): number;
 
-  protected getRules(): IDiscountRule {
-    throw new Error("Method not implemented");
-  }
+  protected abstract getRules(): IDiscountRule;
 
   public toJson(): IDiscountJson {
     return {

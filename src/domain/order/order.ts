@@ -1,3 +1,5 @@
+import { BadRequestException } from "../../common/exceptions";
+import { Money } from "../shared";
 import { ICompany } from "../company";
 import { IOrderItem } from "./order-item";
 import { IOrder, IOrderData, IOrderJson } from "./order.interface";
@@ -9,6 +11,15 @@ export class Order implements IOrder {
   private items: IOrderItem[];
 
   constructor(data: IOrderData) {
+    if (!data.id) {
+      throw new BadRequestException("order id is required");
+    }
+    if (!data.name) {
+      throw new BadRequestException("order name is required");
+    }
+    if (!data.company) {
+      throw new BadRequestException("order company is required");
+    }
     this.id = data.id;
     this.name = data.name;
     this.company = data.company;
@@ -32,7 +43,15 @@ export class Order implements IOrder {
   }
 
   getTotalValue(): number {
-    return this.items.reduce((total, item) => total + item.getTotal(), 0);
+    if (this.items.length === 0) {
+      return 0;
+    }
+    const currency = this.items[0].getProduct().getCurrency();
+    const total = this.items.reduce(
+      (acc, item) => acc.add(new Money(item.getTotal(), currency)),
+      new Money(0, currency),
+    );
+    return total.getAmount();
   }
 
   getTotalQuantity(): number {

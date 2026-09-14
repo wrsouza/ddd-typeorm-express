@@ -3,17 +3,12 @@ import { Module } from "../../core";
 import { ProductEntity } from "../entities";
 import { ProductMapper } from "../mappers";
 import { ProductRepository } from "../repositories";
-import { ProductService } from "../services";
 
 @Module({
   providers: [
     {
       provide: "PRODUCT",
       useValue: database.getRepository(ProductEntity),
-    },
-    {
-      provide: "PRODUCT_INFRA_SERVICE",
-      useClass: ProductService,
     },
     {
       provide: "PRODUCT_REPOSITORY",
@@ -25,6 +20,6 @@ import { ProductService } from "../services";
       useClass: ProductMapper,
     },
   ],
-  exports: ["PRODUCT_INFRA_SERVICE"],
+  exports: ["PRODUCT_REPOSITORY", "PRODUCT_MAPPER"],
 })
 export class ProductModule {}

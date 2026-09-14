@@ -1,3 +1,4 @@
+import { BadRequestException } from "../../../common/exceptions";
 import { Discount } from "../discount";
 import {
   IDiscountPercentualData,
@@ -10,6 +11,16 @@ export class DiscountPercentual extends Discount {
 
   constructor(data: IDiscountPercentualData) {
     super("Percentual Value (Direct)", data.sku);
+    if (data.percentage < 0 || data.percentage > 100) {
+      throw new BadRequestException(
+        "discount percentage must be between 0 and 100",
+      );
+    }
+    if (data.minimumQuantity < 0) {
+      throw new BadRequestException(
+        "discount minimumQuantity cannot be negative",
+      );
+    }
     this.percentage = data.percentage;
     this.minimumQuantity = data.minimumQuantity;
   }
