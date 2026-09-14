@@ -8,7 +8,6 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from "../../core";
 import {
   DestroyResultDto,
@@ -18,11 +17,9 @@ import {
   EmployeeResultDto,
   EmployeeUpdateDto,
 } from "../dtos";
-import { AuthGuard } from "../guards/auth.guard";
 import { IEmployeeService } from "../services";
 
 @Controller("employees")
-@UseGuards(AuthGuard)
 export class EmployeeController {
   constructor(
     @Inject("EMPLOYEE_SERVICE")

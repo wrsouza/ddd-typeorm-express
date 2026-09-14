@@ -8,7 +8,6 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from "../../core";
 import {
   CatalogPaginateDto,
@@ -17,11 +16,9 @@ import {
   CatalogUpsertDto,
   DestroyResultDto,
 } from "../dtos";
-import { AuthGuard } from "../guards/auth.guard";
 import { ICatalogService } from "../services";
 
 @Controller("catalogs")
-@UseGuards(AuthGuard)
 export class CatalogController {
   constructor(
     @Inject("CATALOG_SERVICE")

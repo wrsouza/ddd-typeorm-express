@@ -8,7 +8,6 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from "../../core";
 import {
   CompanyPaginateDto,
@@ -17,11 +16,9 @@ import {
   CompanyUpsertDto,
   DestroyResultDto,
 } from "../dtos";
-import { AuthGuard } from "../guards/auth.guard";
 import { ICompanyService } from "../services";
 
 @Controller("companies")
-@UseGuards(AuthGuard)
 export class CompanyController {
   constructor(
     @Inject("COMPANY_SERVICE")
