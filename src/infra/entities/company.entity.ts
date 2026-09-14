@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import { CatalogEntity } from "./catalog.entity";
 import { DiscountEntity } from "./discount.entity";
+import { EmployeeEntity } from "./employee.entity";
 import { ICompanyEntity } from "./interfaces";
 import { OrderEntity } from "./order.entity";
 
@@ -40,4 +41,9 @@ export class CompanyEntity implements ICompanyEntity {
   @ManyToOne(() => CatalogEntity)
   @JoinColumn({ name: "catalog_id" })
   declare catalog: CatalogEntity;
+
+  @OneToMany(() => EmployeeEntity, (employee) => employee.company, {
+    eager: true,
+  })
+  declare employees: EmployeeEntity[];
 }

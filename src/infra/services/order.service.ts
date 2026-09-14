@@ -28,7 +28,10 @@ export class OrderService implements IOrderService {
     const productIds = [
       ...new Set(orders.flatMap((order) => this.getProductIds(order.items))),
     ];
-    const products = await this.productService.getByIds(productIds);
+    const products = await this.productService.getByIds(
+      productIds,
+      company.getCatalogId()!,
+    );
     return orders.map((order) => this.makeOrder(order, company, products));
   }
 

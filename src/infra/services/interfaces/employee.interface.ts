@@ -8,4 +8,5 @@ export interface IEmployeeService {
   create(data: Partial<IEmployeeEntity>): Promise<IEmployee>;
   update(id: string, data: Partial<IEmployeeEntity>): Promise<IEmployee>;
   delete(id: string): Promise<void>;
+  findByEmail(email: string): Promise<IEmployeeEntity | null>;
 }

@@ -39,6 +39,10 @@ export class EmployeeRepository
     return { name: ILike(`%${params.name}%`) };
   }
 
+  async findByEmail(email: string): Promise<IEmployeeEntity | null> {
+    return this.client.findOneBy({ email } as FindOptionsWhere<IEmployeeEntity>);
+  }
+
   private getPaginateEmail(
     params: IEmployeeFilter,
   ): FindOptionsWhere<IEmployeeEntity> {

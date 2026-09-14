@@ -6,6 +6,7 @@ export class Product implements IProduct {
   private sku: string;
   private name: string;
   private price: number;
+  private currency: string;
   private boxQuantity: number;
   private category: string;
 
@@ -15,6 +16,7 @@ export class Product implements IProduct {
     this.sku = data.sku;
     this.name = data.name;
     this.price = data.price;
+    this.currency = data.currency;
     this.boxQuantity = data.boxQuantity;
     this.category = data.category;
   }
@@ -38,6 +40,10 @@ export class Product implements IProduct {
     return this.price;
   }
 
+  getCurrency(): string {
+    return this.currency;
+  }
+
   getBoxQuantity(): number {
     return this.boxQuantity;
   }
@@ -53,6 +59,7 @@ export class Product implements IProduct {
       sku: this.sku,
       name: this.name,
       price: this.price,
+      currency: this.currency,
       boxQuantity: this.boxQuantity,
       category: this.category,
     };

@@ -5,9 +5,8 @@ import {
   In,
   ObjectLiteral,
 } from "typeorm";
-import { IFilter } from "../../app/services/shared";
 import { NotFoundException } from "../../common/exceptions";
-import { IRepository } from "./interfaces";
+import { IFilter, IRepository } from "./interfaces";
 
 export abstract class Repository<
   T extends ObjectLiteral,

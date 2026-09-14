@@ -14,4 +14,5 @@ export interface ICompanyRepository extends IRepository<ICompanyEntity> {
   update(id: string, data: Partial<ICompanyEntity>): Promise<ICompanyEntity>;
   delete(id: string): Promise<void>;
   findByCatalogIds(catalogIds: string[]): Promise<ICompanyEntity[]>;
+  findByEmployeeId(employeeId: string): Promise<ICompanyEntity | null>;
 }

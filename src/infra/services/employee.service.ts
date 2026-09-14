@@ -44,4 +44,10 @@ export class EmployeeService implements IEmployeeService {
   async delete(id: string): Promise<void> {
     await this.employeeRepository.delete(id);
   }
+
+  // Retorna a entidade crua (com password) para uso exclusivo em autenticação;
+  // o mapper não expõe password ao converter para o domínio.
+  async findByEmail(email: string): Promise<IEmployeeEntity | null> {
+    return this.employeeRepository.findByEmail(email);
+  }
 }

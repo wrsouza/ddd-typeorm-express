@@ -1,22 +1,16 @@
 import {
-  Body,
   Controller,
   Get,
   Inject,
   Param,
-  Post,
-  Put,
   Query,
+  Req,
   UseGuards,
 } from "../../core";
 import {
-  OrderCreateDto,
-  OrderCreateResultDto,
   OrderPaginateDto,
   OrderPaginateResultDto,
   OrderResultDto,
-  OrderUpdateDto,
-  OrderUpdateResultDto,
 } from "../dtos";
 import { AuthGuard } from "../guards";
 import { IOrderService } from "../services";
@@ -30,27 +24,18 @@ export class OrderController {
   ) {}
 
   @Get()
-  async paginate(
+  async getAll(
+    @Req("employeeId") employeeId: string,
     @Query() params: OrderPaginateDto,
   ): Promise<OrderPaginateResultDto> {
-    return this.service.paginate(params);
-  }
-
-  @Post()
-  async create(@Body() body: OrderCreateDto): Promise<OrderCreateResultDto> {
-    return this.service.create(body);
+    return this.service.getAll(employeeId, params);
   }
 
   @Get(":id")
-  async show(@Param("id") id: string): Promise<OrderResultDto> {
-    return this.service.findById(id);
-  }
-
-  @Put(":id")
-  async update(
-    @Param("id") id: string,
-    @Body() body: OrderUpdateDto,
-  ): Promise<OrderUpdateResultDto> {
-    return this.service.update(id, body);
+  async show(
+    @Req("employeeId") employeeId: string,
+    @Param("id") orderId: string,
+  ): Promise<OrderResultDto> {
+    return this.service.findById(employeeId, orderId);
   }
 }

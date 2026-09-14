@@ -1,10 +1,9 @@
-import { ICatalogFilter } from "../../app/services";
 import { NotFoundException } from "../../common/exceptions";
 import { Inject, Injectable } from "../../core";
 import { ICatalog, ICompany, IProduct } from "../../domain";
 import { ICatalogEntity } from "../entities";
 import { ICatalogMapper } from "../mappers";
-import { ICatalogRepository } from "../repositories";
+import { ICatalogFilter, ICatalogRepository } from "../repositories";
 import {
   ICatalogService,
   ICompanyService,

@@ -1,10 +1,9 @@
-import { ICompanyFilter } from "../../app/services";
 import { NotFoundException } from "../../common/exceptions";
 import { Inject, Injectable } from "../../core";
 import { ICompany } from "../../domain";
 import { ICompanyEntity } from "../entities";
 import { ICompanyMapper } from "../mappers";
-import { ICompanyRepository } from "../repositories";
+import { ICompanyFilter, ICompanyRepository } from "../repositories";
 import { ICompanyService } from "./interfaces";
 
 @Injectable()
@@ -49,5 +48,13 @@ export class CompanyService implements ICompanyService {
   async findByCatalogIds(catalogIds: string[]): Promise<ICompany[]> {
     const companies = await this.companyRepository.findByCatalogIds(catalogIds);
     return companies.map((company) => this.companyMapper.toDomain(company));
+  }
+
+  async findByEmployeeId(employeeId: string): Promise<ICompany> {
+    const company = await this.companyRepository.findByEmployeeId(employeeId);
+    if (!company) {
+      throw new NotFoundException("company not found");
+    }
+    return this.companyMapper.toDomain(company);
   }
 }

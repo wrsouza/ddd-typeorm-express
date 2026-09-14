@@ -9,4 +9,5 @@ export interface ICompanyService {
   update(id: string, data: Partial<ICompanyEntity>): Promise<ICompany>;
   delete(id: string): Promise<void>;
   findByCatalogIds(catalogIds: string[]): Promise<ICompany[]>;
+  findByEmployeeId(employeeId: string): Promise<ICompany>;
 }

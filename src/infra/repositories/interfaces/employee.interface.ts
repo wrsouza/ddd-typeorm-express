@@ -14,4 +14,5 @@ export interface IEmployeeRepository extends IRepository<IEmployeeEntity> {
   create(data: Partial<IEmployeeEntity>): Promise<IEmployeeEntity>;
   update(id: string, data: Partial<IEmployeeEntity>): Promise<IEmployeeEntity>;
   delete(id: string): Promise<void>;
+  findByEmail(email: string): Promise<IEmployeeEntity | null>;
 }

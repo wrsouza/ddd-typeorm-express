@@ -2,9 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { CompanyEntity } from "./company.entity";
 import { IEmployeeEntity } from "./interfaces";
 
 @Entity({ name: "employees" })
@@ -29,4 +32,8 @@ export class EmployeeEntity implements IEmployeeEntity {
 
   @UpdateDateColumn({ name: "updated_at" })
   declare updatedAt: Date;
+
+  @ManyToOne(() => CompanyEntity, (company) => company.employees)
+  @JoinColumn({ name: "company_id" })
+  declare company: CompanyEntity;
 }

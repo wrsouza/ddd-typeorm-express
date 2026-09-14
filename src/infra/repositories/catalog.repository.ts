@@ -1,8 +1,7 @@
 import { FindOptionsWhere, ILike } from "typeorm";
-import { ICatalogFilter } from "../../app/services";
 import { Injectable } from "../../core";
 import { ICatalogEntity } from "../entities";
-import { ICatalogRepository } from "./interfaces";
+import { ICatalogFilter, ICatalogRepository } from "./interfaces";
 import { Repository } from "./repository";
 
 @Injectable()

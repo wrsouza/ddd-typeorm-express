@@ -2,8 +2,10 @@ import type { Application, NextFunction, Request, Response } from "express";
 import { Router } from "express";
 import "reflect-metadata";
 import type { ZodType } from "zod";
+import { ForbiddenException } from "../../common/exceptions";
 import {
   CONTROLLER_METADATA,
+  GUARDS_METADATA,
   PARAMS_METADATA,
   ParamType,
   ROUTES_METADATA,
@@ -12,7 +14,7 @@ import {
   type Type,
 } from "../constants";
 import { Container } from "../container";
-import type { ClassOrInstance, PipeTransform } from "../interfaces";
+import { ExecutionContext, type CanActivate, type ClassOrInstance, type PipeTransform } from "../interfaces";
 
 function isZodType(dtoType: unknown): dtoType is ZodType {
   return (
@@ -31,7 +33,7 @@ function extractRaw(type: ParamType, key: string | undefined, req: Request) {
     case ParamType.HEADERS:
       return key ? req.headers[key] : req.headers;
     case ParamType.REQ:
-      return req;
+      return key ? (req as any)[key] : req;
     case ParamType.BODY:
       return key ? req.body?.[key] : req.body;
   }
@@ -89,6 +91,35 @@ async function buildArgs(
   return args;
 }
 
+async function runGuards(
+  controller: Type<any>,
+  handlerName: string | symbol,
+  req: Request,
+  container: Container,
+): Promise<void> {
+  const classGuards: Type<CanActivate>[] =
+    Reflect.getMetadata(GUARDS_METADATA, controller) || [];
+  const methodGuards: Type<CanActivate>[] =
+    Reflect.getMetadata(GUARDS_METADATA, controller, handlerName) || [];
+  const guards = [...classGuards, ...methodGuards];
+  if (guards.length === 0) return;
+
+  const context = new ExecutionContext(
+    req,
+    controller,
+    handlerName,
+    req.params as Record<string, string>,
+  );
+
+  for (const guard of guards) {
+    const instance = container.resolve<CanActivate>(guard);
+    const allowed = await instance.canActivate(context);
+    if (!allowed) {
+      throw new ForbiddenException();
+    }
+  }
+}
+
 function normalizePrefix(prefix: string): string {
   if (!prefix || prefix === "/") return "";
   return prefix.startsWith("/") ? prefix : `/${prefix}`;
@@ -135,6 +166,7 @@ export function createExpressAdapter(
         fullPath,
         async (req: Request, res: Response, next: NextFunction) => {
           try {
+            await runGuards(controller, route.handlerName, req, container);
             const args = await buildArgs(
               controller,
               route.handlerName,

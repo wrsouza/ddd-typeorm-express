@@ -13,18 +13,27 @@ export class ProductService implements IProductService {
     private readonly productMapper: IProductMapper,
   ) {}
 
-  async getAll(): Promise<IProduct[]> {
-    const products = await this.productRepository.getAll();
-    return products.map((product) => this.productMapper.toDomain(product));
-  }
-
-  async getByIds(ids: string[]): Promise<IProduct[]> {
+  async getByIds(ids: string[], catalogId: string): Promise<IProduct[]> {
     const products = await this.productRepository.getByIds(ids);
-    return products.map((product) => this.productMapper.toDomain(product));
+    return products.map((product) =>
+      this.productMapper.toDomain(product, catalogId),
+    );
   }
 
   async findByCatalogIds(catalogIds: string[]): Promise<IProduct[]> {
     const products = await this.productRepository.findByCatalogIds(catalogIds);
-    return products.map((product) => this.productMapper.toDomain(product));
+    let productsMapped: IProduct[] = [];
+    for (const catalogId of catalogIds) {
+      const filteredProducts = products.filter((product) =>
+        product.prices?.find((p) => p.catalogId === catalogId),
+      );
+      productsMapped = [
+        ...productsMapped,
+        ...filteredProducts.map((product) =>
+          this.productMapper.toDomain(product, catalogId),
+        ),
+      ];
+    }
+    return productsMapped;
   }
 }

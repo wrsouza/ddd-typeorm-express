@@ -20,6 +20,7 @@ export default async function seeds() {
   const companies = await seedCompany(6, catalogs);
 
   const employees = await seedEmployee(companies);
+  console.log("employees", employees);
 
   const products = await seedProduct(30, catalogs);
 

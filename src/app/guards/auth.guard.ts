@@ -1,3 +1,4 @@
+import type { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { UnauthorizedException } from "../../common/exceptions";
 import {
@@ -16,15 +17,15 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const request = context.getRequest();
-    const authorization = request.headers.get("authorization");
+    const request = context.getRequest() as Request & { employeeId?: string };
+    const authorization = request.headers.authorization;
     if (!authorization?.startsWith("Bearer ")) {
       throw new UnauthorizedException("Token não informado");
     }
 
     const token = authorization.slice("Bearer ".length);
     const payload = this.jwt.verify<JwtPayload>(token);
-    request.headers.set("employeeId", String(payload.sub));
+    request.employeeId = String(payload.sub);
     return true;
   }
 }

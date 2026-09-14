@@ -1,8 +1,7 @@
 import { FindOptionsWhere, ILike, In, IsNull } from "typeorm";
-import { ICompanyFilter } from "../../app/services";
 import { Injectable } from "../../core";
 import { ICompanyEntity } from "../entities";
-import { ICompanyRepository } from "./interfaces";
+import { ICompanyFilter, ICompanyRepository } from "./interfaces";
 import { Repository } from "./repository";
 
 @Injectable()
@@ -56,6 +55,14 @@ export class CompanyRepository
     return this.client.find({
       where: {
         catalogId: In(catalogIds),
+      },
+    });
+  }
+
+  async findByEmployeeId(employeeId: string): Promise<ICompanyEntity | null> {
+    return this.client.findOneBy({
+      employees: {
+        id: employeeId,
       },
     });
   }

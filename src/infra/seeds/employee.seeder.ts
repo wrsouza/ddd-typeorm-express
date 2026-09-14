@@ -15,7 +15,7 @@ function makeEmployee(companies: ICompanyEntity[]): IEmployeeEntity[] {
       id: uuid(),
       companyId: company.id,
       name: `${firstName} ${lastName}`,
-      email: faker.internet.email({ firstName, lastName }),
+      email: faker.internet.email({ firstName, lastName }).toLowerCase(),
       password: hashSync("123456", 8),
     });
   }

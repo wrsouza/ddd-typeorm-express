@@ -1,19 +1,21 @@
-export interface IProductData {
-  id: string;
+export interface IProductPrice {
   catalogId: string;
+  currency: string;
+  price: number;
+}
+
+export interface IProductData extends IProductPrice {
+  id: string;
   sku: string;
   name: string;
-  price: number;
   boxQuantity: number;
   category: string;
 }
 
-export interface IProductJson {
+export interface IProductJson extends IProductPrice {
   id: string;
-  catalogId: string;
   sku: string;
   name: string;
-  price: number;
   boxQuantity: number;
   category: string;
 }
@@ -24,6 +26,7 @@ export interface IProduct {
   getSku(): string;
   getName(): string;
   getPrice(): number;
+  getCurrency(): string;
   getBoxQuantity(): number;
   getCategory(): string;
   toJson(): IProductJson;

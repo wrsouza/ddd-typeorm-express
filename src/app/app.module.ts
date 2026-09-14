@@ -1,5 +1,6 @@
 import { Module } from "../core";
 import {
+  AuthModule,
   CatalogModule,
   CompanyModule,
   EmployeeModule,
@@ -9,11 +10,12 @@ import {
 
 @Module({
   imports: [
+    HealthModule,
     OrderModule,
     CompanyModule,
     CatalogModule,
-    HealthModule,
     EmployeeModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

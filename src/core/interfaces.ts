@@ -1,3 +1,4 @@
+import type { Request } from "express";
 import type { ZodType } from "zod";
 
 export interface ArgumentMetadata {

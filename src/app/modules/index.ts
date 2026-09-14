@@ -1,3 +1,4 @@
+export * from "./auth.module";
 export * from "./catalog.module";
 export * from "./company.module";
 export * from "./employee.module";
