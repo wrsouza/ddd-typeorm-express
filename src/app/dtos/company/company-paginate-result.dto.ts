@@ -1,6 +1,5 @@
 import { ICompanyJson } from "../../../domain";
-import { ICompanyFilter } from "../../services";
-
+import { ICompanyFilter } from "../../../infra/repositories";
 export class CompanyPaginateResultDto {
   readonly data: ICompanyJson[];
   readonly page: number;

@@ -24,11 +24,11 @@ export class OrderController {
   ) {}
 
   @Get()
-  async getAll(
+  async paginate(
     @Req("employeeId") employeeId: string,
     @Query() params: OrderPaginateDto,
   ): Promise<OrderPaginateResultDto> {
-    return this.service.getAll(employeeId, params);
+    return this.service.paginate(employeeId, params);
   }
 
   @Get(":id")

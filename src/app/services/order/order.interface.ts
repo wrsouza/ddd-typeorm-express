@@ -5,7 +5,7 @@ import {
 } from "../../dtos";
 
 export interface IOrderService {
-  getAll(
+  paginate(
     employeeId: string,
     params: OrderPaginateDto,
   ): Promise<OrderPaginateResultDto>;

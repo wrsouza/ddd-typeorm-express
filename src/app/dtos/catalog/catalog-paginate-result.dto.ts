@@ -1,5 +1,5 @@
 import { ICatalogJson } from "../../../domain";
-import { ICatalogFilter } from "../../services";
+import { ICatalogFilter } from "../../../infra/repositories";
 
 export class CatalogPaginateResultDto {
   readonly data: ICatalogJson[];

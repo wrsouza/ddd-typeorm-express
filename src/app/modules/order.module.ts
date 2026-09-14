@@ -4,8 +4,7 @@ import {
   OrderModule as OrderInfraModule,
 } from "../../infra/modules";
 import { OrderController } from "../controllers";
-import { OrderService } from "../services";
-
+import { OrderService, OrderFilterService } from "../services";
 @Module({
   imports: [OrderInfraModule, CompanyInfraModule],
   controllers: [OrderController],
@@ -13,6 +12,10 @@ import { OrderService } from "../services";
     {
       provide: "ORDER_SERVICE",
       useClass: OrderService,
+    },
+    {
+      provide: "ORDER_FILTER",
+      useClass: OrderFilterService,
     },
   ],
 })

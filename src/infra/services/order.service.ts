@@ -3,7 +3,7 @@ import { Inject, Injectable } from "../../core";
 import { ICompany, IOrder, IProduct } from "../../domain";
 import { IOrderEntity, IOrderItemEntity } from "../entities";
 import { IOrderMapper } from "../mappers";
-import { IOrderRepository } from "../repositories";
+import { IOrderFilter, IOrderRepository } from "../repositories";
 import {
   IOrderItemService,
   IOrderService,
@@ -22,6 +22,21 @@ export class OrderService implements IOrderService {
     @Inject("PRODUCT_INFRA_SERVICE")
     private readonly productService: IProductService,
   ) {}
+
+  async paginate(
+    filters: IOrderFilter,
+    company: ICompany,
+  ): Promise<[IOrder[], number]> {
+    const [orders, total] = await this.orderRepository.paginate({
+      ...filters,
+      companyId: company.getId(),
+    });
+    const products = await this.getProducts(orders, company);
+    const ordersMapped = orders.map((order) =>
+      this.makeOrder(order, company, products),
+    );
+    return [ordersMapped, total];
+  }
 
   async getAll(company: ICompany): Promise<IOrder[]> {
     const orders = await this.orderRepository.getAll();
@@ -47,6 +62,16 @@ export class OrderService implements IOrderService {
 
   private getProductIds(items: IOrderItemEntity[]): string[] {
     return [...new Set(items.map((item) => item.productId))];
+  }
+
+  private getProducts(
+    orders: IOrderEntity[],
+    company: ICompany,
+  ): Promise<IProduct[]> {
+    const productIds = [
+      ...new Set(orders.flatMap((order) => this.getProductIds(order.items))),
+    ];
+    return this.productService.getByIds(productIds, company.getCatalogId()!);
   }
 
   private makeOrder(
