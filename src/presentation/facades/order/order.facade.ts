@@ -4,6 +4,7 @@ import {
   IOrderApplicationService,
 } from "../../../application/services";
 import {
+  OrderItemCreateDto,
   OrderPaginateDto,
   OrderPaginateResultDto,
   OrderResultDto,
@@ -39,6 +40,16 @@ export class OrderFacade implements IOrderFacade {
   async findById(employeeId: string, orderId: string): Promise<OrderResultDto> {
     const company = await this.companyService.findByEmployeeId(employeeId);
     const order = await this.orderService.getById(orderId, company);
+    return new OrderResultDto(order.toJson());
+  }
+
+  async addItem(
+    employeeId: string,
+    orderId: string,
+    data: OrderItemCreateDto,
+  ): Promise<OrderResultDto> {
+    const company = await this.companyService.findByEmployeeId(employeeId);
+    const order = await this.orderService.addItem(orderId, company, data);
     return new OrderResultDto(order.toJson());
   }
 }

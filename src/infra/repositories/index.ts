@@ -3,6 +3,7 @@ export * from "./company.repository";
 export * from "./discount.repository";
 export * from "./employee.repository";
 export * from "./interfaces";
+export * from "./order-item.repository";
 export * from "./order.repository";
 export * from "./product.repository";
 export * from "./repository";

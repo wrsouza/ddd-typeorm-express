@@ -1,4 +1,5 @@
 import {
+  OrderItemCreateDto,
   OrderPaginateDto,
   OrderPaginateResultDto,
   OrderResultDto,
@@ -10,4 +11,9 @@ export interface IOrderFacade {
     params: OrderPaginateDto,
   ): Promise<OrderPaginateResultDto>;
   findById(employeeId: string, orderId: string): Promise<OrderResultDto>;
+  addItem(
+    employeeId: string,
+    orderId: string,
+    data: OrderItemCreateDto,
+  ): Promise<OrderResultDto>;
 }

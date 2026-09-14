@@ -9,14 +9,12 @@ export const catalogSort = [
   "-createdAt",
 ];
 
-export const catalogPaginateSchema = z
-  .object({
-    id: z.uuid().optional(),
-    name: z.string().optional(),
-    page: z.number().optional().default(1),
-    limit: z.number().optional().default(10),
-    sort: z.enum(catalogSort).optional().default("name"),
-  })
-  .required();
+export const catalogPaginateSchema = z.object({
+  id: z.uuid().optional(),
+  name: z.string().optional(),
+  page: z.number().optional().default(1),
+  limit: z.number().optional().default(10),
+  sort: z.enum(catalogSort).optional().default("name"),
+});
 
 export type CatalogPaginateDto = z.infer<typeof catalogPaginateSchema>;

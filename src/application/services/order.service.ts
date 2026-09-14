@@ -1,12 +1,17 @@
 import { v4 as uuid } from "uuid";
 import { NotFoundException } from "../../common/exceptions";
 import { Inject, Injectable } from "../../core";
-import { ICompany, IOrder, IProduct } from "../../domain";
+import { ICompany, IOrder, IOrderItem, OrderItem, IProduct } from "../../domain";
 import { IOrderEntity, IOrderItemEntity } from "../../infra/entities";
 import { IOrderMapper } from "../../infra/mappers";
-import { IOrderFilter, IOrderRepository } from "../../infra/repositories";
+import {
+  IOrderFilter,
+  IOrderItemRepository,
+  IOrderRepository,
+} from "../../infra/repositories";
 import {
   IOrderItemService,
+  IOrderAddItemData,
   IOrderApplicationService,
   IProductApplicationService,
 } from "./interfaces";
@@ -18,6 +23,8 @@ export class OrderService implements IOrderApplicationService {
     private readonly orderRepository: IOrderRepository,
     @Inject("ORDER_MAPPER")
     private readonly orderMapper: IOrderMapper,
+    @Inject("ORDER_ITEM_REPOSITORY")
+    private readonly orderItemRepository: IOrderItemRepository,
     @Inject("ORDER_ITEM_APPLICATION_SERVICE")
     private readonly orderItemService: IOrderItemService,
     @Inject("PRODUCT_APPLICATION_SERVICE")
@@ -71,6 +78,42 @@ export class OrderService implements IOrderApplicationService {
       items: [],
     });
     return this.orderMapper.toDomain(order, company, []);
+  }
+
+  async addItem(
+    orderId: string,
+    company: ICompany,
+    data: IOrderAddItemData,
+  ): Promise<IOrder> {
+    const order = await this.getById(orderId, company);
+    const products = await this.productService.getByIds(
+      [data.productId],
+      company.getCatalogId()!,
+    );
+    const product = products.find((item) => item.getId() === data.productId);
+    if (!product) {
+      throw new NotFoundException(`product "${data.productId}" not found`);
+    }
+
+    const item: IOrderItem = new OrderItem({
+      id: uuid(),
+      product,
+      discount: null,
+      price: null,
+      quantity: data.quantity,
+    });
+
+    order.addItem(item);
+
+    await this.orderItemRepository.save({
+      id: item.getId(),
+      orderId: order.getId(),
+      productId: product.getId(),
+      price: item.getPrice(),
+      quantity: item.getQuantity(),
+    });
+
+    return order;
   }
 
   private getProductIds(items: IOrderItemEntity[]): string[] {

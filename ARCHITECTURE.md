@@ -177,6 +177,10 @@ presentation/
     index.ts
   guards/
     auth.guard.ts            # @UseGuards — protege rota, resolve identidade do request
+  decorators/
+    swagger.decorator.ts      # @ApiTags/@ApiOperation/@ApiBody/@ApiQuery/@ApiResponse/@ApiBearerAuth
+  swagger/
+    build-document.ts         # varre os controllers do container e gera o OpenAPI document
   modules/
     <nome>.module.ts          # registra controller + facade + filter no DI
   app.module.ts                # módulo raiz: importa todos os módulos de domínio
@@ -208,6 +212,15 @@ presentation/
   application service.
 - **Módulo de presentation** (`presentation/modules/<nome>.module.ts`): importa o
   módulo de `application` homônimo, registra `Controller` + `Facade` + `FilterService`.
+- **Docs (Swagger/OpenAPI)**: os decorators `@ApiTags`/`@ApiOperation`/`@ApiBody`/
+  `@ApiQuery`/`@ApiResponse`/`@ApiBearerAuth` (`presentation/decorators/swagger.decorator.ts`)
+  gravam metadata via `reflect-metadata` em cima dos schemas `zod` que já existem
+  nos DTOs — não redeclaram shape nenhum. `presentation/swagger/build-document.ts`
+  varre todos os controllers registrados no container de DI (rotas + guards +
+  essa metadata) e monta um `OpenAPIObject` com `@asteasolutions/zod-to-openapi`;
+  `src/server.ts` serve esse documento em `/docs` com `swagger-ui-express`. É
+  puramente documentação — decorar uma rota com `@Api*` não afeta o pipeline de
+  request (validação/execução continua vindo do `core`).
 
 ## 6. `common/` e `core/` — transversais
 
@@ -302,3 +315,11 @@ Registrado aqui de propósito, pra não ser redescoberto do zero depois:
 - Sem Domain Events, sem Bounded Contexts — o projeto é um único modelo de domínio.
   Não é lacuna pro tamanho atual; vira relevante só se o domínio crescer muito ou
   precisar de múltiplos times/serviços.
+- `OrderService.addItem()` injeta `ORDER_ITEM_REPOSITORY` direto e chama
+  `orderItemRepository.save()` ele mesmo, em vez de delegar pro
+  `IOrderItemService` (`ORDER_ITEM_APPLICATION_SERVICE`) que a mesma classe já
+  injeta pra outra coisa. Inconsistente com o padrão do resto do projeto (regra
+  8.6/8.7 — application service só fala com repository do próprio domínio,
+  domínios vizinhos via outro application service). Funciona, mas o próximo
+  ajuste em persistência de item de pedido deveria mover isso pra dentro de
+  `OrderItemService`.

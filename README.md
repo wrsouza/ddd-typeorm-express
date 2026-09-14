@@ -16,6 +16,8 @@ Se você é um assistente de IA trabalhando neste repositório, leia primeiro
 - TypeORM + `better-sqlite3` (persistência — banco de arquivo local `database.db`)
 - `jsonwebtoken` + `bcrypt` (autenticação)
 - `zod` (validação de alguns DTOs de entrada)
+- `@asteasolutions/zod-to-openapi` + `swagger-ui-express` (docs OpenAPI geradas
+  a partir das rotas + schemas zod, servidas em `/docs`)
 - `@faker-js/faker` (seeds de desenvolvimento)
 
 ## Rodando localmente
@@ -88,6 +90,10 @@ Prefixo vazio (`http://localhost:3000`). Rotas marcadas 🔒 exigem
 | DELETE | `/catalogs/:id`     | remove                               |
 | GET    | `/orders` 🔒        | lista pedidos da company do employee logado |
 | GET    | `/orders/:id` 🔒    | detalhe do pedido                     |
+| POST   | `/orders/:id/items` 🔒 | adiciona um item ao pedido         |
+
+Docs interativas (Swagger UI, geradas a partir das rotas + schemas zod):
+`http://localhost:3000/docs`.
 
 Senha de todos os employees gerados no seed: `123456`.
 
