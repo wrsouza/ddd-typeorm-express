@@ -23,6 +23,8 @@ export interface IOrder {
   getName(): string;
   getCompany(): ICompany;
   getItems(): IOrderItem[];
+  addItem(item: IOrderItem): void;
+  removeItem(itemId: string): void;
   getTotalQuantity(): number;
   getTotalValue(): number;
   toJson(): IOrderJson;

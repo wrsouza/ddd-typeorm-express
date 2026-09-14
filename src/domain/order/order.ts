@@ -1,4 +1,4 @@
-import { BadRequestException } from "../../common/exceptions";
+import { BadRequestException, NotFoundException } from "../../common/exceptions";
 import { Money } from "../shared";
 import { ICompany } from "../company";
 import { IOrderItem } from "./order-item";
@@ -39,7 +39,35 @@ export class Order implements IOrder {
   }
 
   getItems(): IOrderItem[] {
-    return this.items;
+    return [...this.items];
+  }
+
+  addItem(item: IOrderItem): void {
+    if (this.items.some((existing) => existing.getId() === item.getId())) {
+      throw new BadRequestException(
+        `order already has an item with id "${item.getId()}"`,
+      );
+    }
+    if (item.getProduct().getCatalogId() !== this.company.getCatalogId()) {
+      throw new BadRequestException(
+        "order item product must belong to the order company's catalog",
+      );
+    }
+    const currency = this.items[0]?.getProduct().getCurrency();
+    if (currency && item.getProduct().getCurrency() !== currency) {
+      throw new BadRequestException(
+        "order item currency must match the other items in the order",
+      );
+    }
+    this.items.push(item);
+  }
+
+  removeItem(itemId: string): void {
+    const index = this.items.findIndex((item) => item.getId() === itemId);
+    if (index === -1) {
+      throw new NotFoundException(`order item "${itemId}" not found`);
+    }
+    this.items.splice(index, 1);
   }
 
   getTotalValue(): number {
